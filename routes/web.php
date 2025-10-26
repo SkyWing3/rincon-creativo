@@ -5,21 +5,52 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\StoreController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Api\AuthApiController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect('/store');
 });
+
+Route::get('/store/{any?}', [StoreController::class, 'app'])
+    ->where('any', '.*')
+    ->name('store.app');
 
 Route::get('/email/verify', function () {
     return Inertia::render('Auth/VerifyEmail', [
         'status' => session('status'),
     ]);
 })->middleware('auth')->name('verification.notice');
+
+Route::prefix('api')->group(function () {
+    Route::post('/register', [AuthApiController::class, 'register']);
+    Route::post('/login', [AuthApiController::class, 'login']);
+    Route::post('/logout', [AuthApiController::class, 'logout']);
+    Route::get('/profile', [AuthApiController::class, 'profile']);
+
+    Route::get('/products', [StoreController::class, 'products']);
+    Route::get('/categories', [StoreController::class, 'categories']);
+
+    Route::middleware('auth')->group(function () {
+        Route::post('/orders', [OrderController::class, 'store']);
+
+        Route::get('/users', [AdminController::class, 'users']);
+        Route::get('/orders', [AdminController::class, 'orders']);
+        Route::get('/products/manage', [AdminController::class, 'products']);
+        Route::post('/products', [AdminController::class, 'storeProduct']);
+        Route::put('/products/{product}', [AdminController::class, 'updateProduct']);
+        Route::delete('/products/{product}', [AdminController::class, 'deleteProduct']);
+
+        Route::get('/categories/manage', [AdminController::class, 'categories']);
+        Route::post('/categories', [AdminController::class, 'storeCategory']);
+        Route::put('/categories/{category}', [AdminController::class, 'updateCategory']);
+        Route::delete('/categories/{category}', [AdminController::class, 'deleteCategory']);
+
+        Route::patch('/users/{user}/role', [AdminController::class, 'updateUserRole']);
+    });
+});
 
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {

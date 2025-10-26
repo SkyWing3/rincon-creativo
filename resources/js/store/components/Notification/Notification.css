@@ -1,0 +1,55 @@
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  z-index: 1000;
+  animation: slideIn 0.5s forwards, slideOut 0.5s 2.5s forwards;
+}
+
+.notification.success {
+  background-color: #28a745;
+}
+
+.notification.error {
+  background-color: #dc3545;
+}
+
+.notification-timer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  animation: timer 3s linear forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes timer {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}

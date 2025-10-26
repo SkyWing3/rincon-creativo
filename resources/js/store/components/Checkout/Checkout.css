@@ -1,0 +1,223 @@
+.checkout-container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.checkout-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.checkout-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.user-data, .cart-summary {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-data h3, .cart-summary h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.user-data p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.user-data p strong {
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.cart-summary .cart-item-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.cart-summary .cart-total-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.checkout-status,
+.checkout-error {
+  margin: 0;
+  padding: 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.checkout-status {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.checkout-error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.checkout-status + .checkout-status {
+  margin-top: 1rem;
+}
+
+.order-details,
+.payment-instructions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.order-details h4,
+.payment-instructions h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.order-details p,
+.payment-instructions p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.payment-instructions p strong {
+  color: #333;
+}
+
+.payment-note {
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.binance-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #fcd535;
+  color: #181a20;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.binance-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(252, 213, 53, 0.4);
+}
+
+/* Dark Mode overrides */
+body.dark-mode .checkout-container {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+body.dark-mode .checkout-container h2 {
+  color: #f5f5f5;
+}
+
+body.dark-mode .checkout-content {
+  gap: 2rem;
+}
+
+body.dark-mode .user-data,
+body.dark-mode .cart-summary {
+  background-color: #1c1f24;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  border: 1px solid #2a2e36;
+}
+
+body.dark-mode .user-data h3,
+body.dark-mode .cart-summary h3 {
+  color: #f5f5f5;
+  border-color: #2a2e36;
+}
+
+body.dark-mode .user-data p,
+body.dark-mode .cart-summary span,
+body.dark-mode .order-details p,
+body.dark-mode .payment-instructions p {
+  color: #d1d5db;
+}
+
+body.dark-mode .user-data p strong,
+body.dark-mode .order-details p strong,
+body.dark-mode .payment-instructions p strong {
+  color: #fcd535;
+}
+
+body.dark-mode .cart-summary .cart-total-summary {
+  color: #f5f5f5;
+  border-color: #2a2e36;
+}
+
+body.dark-mode .checkout-status {
+  background-color: #1f2933;
+  color: #cbd5f5;
+}
+
+body.dark-mode .checkout-error {
+  background-color: #7f1d1d;
+  color: #fee2e2;
+}
+
+body.dark-mode .order-details,
+body.dark-mode .payment-instructions {
+  border-color: #2a2e36;
+}
+
+body.dark-mode .payment-note {
+  background-color: #3b2f12;
+  color: #fcd34d;
+}
+
+body.dark-mode .binance-link {
+  background-color: #fcd535;
+  color: #121212;
+  box-shadow: 0 6px 12px rgba(252, 213, 53, 0.25);
+}
+
+body.dark-mode .binance-link:hover {
+  box-shadow: 0 6px 16px rgba(252, 213, 53, 0.45);
+}

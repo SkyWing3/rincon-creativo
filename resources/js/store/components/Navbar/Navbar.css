@@ -1,0 +1,120 @@
+
+.navbar {
+  background: #fff;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Montserrat', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  padding: 0 30px;
+  max-width: 1400px;
+}
+
+.navbar-logo {
+  color: #333;
+  justify-self: start;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.navbar-icon {
+  margin-right: 0.5rem;
+  width: 40px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  text-align: center;
+}
+
+.nav-item {
+  height: 80px;
+}
+
+.nav-links {
+  color: #333;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.5rem 1.5rem;
+  height: 100%;
+  transition: all 0.2s ease-out;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links:hover {
+  color: #e89a1f;
+  border-bottom: 3px solid #e89a1f;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+}
+
+.nav-icon-link {
+  color: #333;
+  font-size: 1.5rem;
+  margin-left: 1.5rem;
+  transition: color 0.2s ease-out;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #dc3545;
+  color: #fff;
+  border-radius: 50%;
+  padding: 4px 6px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.nav-icon-link:hover {
+  color: #e89a1f;
+}
+
+.menu-icon {
+  display: none;
+}
+
+@media screen and (max-width: 960px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .nav-icons {
+    display: none;
+  }
+
+  .menu-icon {
+    display: block;
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+}
