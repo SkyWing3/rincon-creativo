@@ -18,6 +18,9 @@ const SideDrawer = ({
     sideDrawerClass.push('show');
   }
 
+  const userRole = (user?.role || user?.rol || '').toLowerCase();
+  const isStaff = user && userRole !== 'client';
+
   const handleLogout = (event) => {
     if (onLogout) {
       onLogout(event);
@@ -55,6 +58,11 @@ const SideDrawer = ({
             <li>
               <Link to="/profile">Perfil</Link>
             </li>
+            {isStaff && (
+              <li>
+                <Link to="/admin">Admin</Link>
+              </li>
+            )}
             <li>
               <button type="button" className="sidedrawer__button profile" onClick={handleLogout}>
                 <FaUser /> Cerrar sesión

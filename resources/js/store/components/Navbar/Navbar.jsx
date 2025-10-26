@@ -15,6 +15,9 @@ const Navbar = ({ cartItemCount }) => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const userRole = (user?.role || user?.rol || '').toLowerCase();
+  const isStaff = user && userRole !== 'client';
+
   const drawerToggleClickHandler = () => {
     setSideDrawerOpen((prevState) => !prevState);
   };
@@ -63,6 +66,13 @@ const Navbar = ({ cartItemCount }) => {
                   Perfil
                 </Link>
               </li>
+              {isStaff && (
+                <li className="nav-item">
+                  <Link to="/admin" className="nav-links">
+                    Admin
+                  </Link>
+                </li>
+              )}
               <li className="nav-item">
                 <button type="button" onClick={handleLogout} className="nav-links nav-links--button">
                   Cerrar sesión
