@@ -115,7 +115,7 @@ export default function Register() {
                             id="departamento"
                             name="departamento"
                             value={data.departamento}
-                            className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                            className="mt-1 block w-full rounded-md border border-slate-800 bg-slate-900 text-slate-100 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
                             onChange={(e) => setData('departamento', e.target.value)}
                             required
                         >
@@ -216,7 +216,7 @@ export default function Register() {
                 <div className="mt-6 flex items-center justify-end">
                     <Link
                         href={route('login')}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        className="rounded-md text-sm text-emerald-300 underline hover:text-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900"
                     >
                         ¿Ya tienes cuenta?
                     </Link>

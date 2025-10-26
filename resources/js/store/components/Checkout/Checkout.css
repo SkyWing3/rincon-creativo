@@ -1,12 +1,13 @@
 .checkout-container {
-  padding: 2rem;
-  background-color: #f9f9f9;
+  padding: 2.5rem 1.5rem 3rem;
+  background-color: var(--page-bg);
+  color: var(--text-primary);
 }
 
 .checkout-container h2 {
   text-align: center;
   margin-bottom: 2rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .checkout-content {
@@ -15,28 +16,31 @@
   gap: 2rem;
 }
 
-.user-data, .cart-summary {
-  background-color: #fff;
+.user-data,
+.cart-summary {
+  background-color: var(--surface);
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-color);
 }
 
-.user-data h3, .cart-summary h3 {
+.user-data h3,
+.cart-summary h3 {
   margin-top: 0;
   margin-bottom: 1.5rem;
-  color: #333;
-  border-bottom: 1px solid #eee;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 1rem;
 }
 
 .user-data p {
   margin: 0.5rem 0;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .user-data p strong {
-  color: #333;
+  color: var(--text-primary);
 }
 
 .form-group {
@@ -46,23 +50,33 @@
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #333;
-  font-weight: bold;
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
 .form-group input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
   font-size: 1rem;
+  background: var(--muted-surface);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(116, 195, 174, 0.18);
+  background: var(--surface);
 }
 
 .cart-summary .cart-item-summary {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .cart-summary .cart-total-summary {
@@ -70,28 +84,31 @@
   justify-content: space-between;
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-color);
   font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .checkout-status,
 .checkout-error {
   margin: 0;
   padding: 1rem;
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 0.95rem;
+  border: 1px solid transparent;
 }
 
 .checkout-status {
-  background-color: #f3f4f6;
-  color: #4b5563;
+  background-color: var(--surface-alt);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
 }
 
 .checkout-error {
-  background-color: #fee2e2;
-  color: #b91c1c;
+  background-color: rgba(243, 108, 108, 0.12);
+  color: var(--danger);
+  border-color: rgba(243, 108, 108, 0.45);
 }
 
 .checkout-status + .checkout-status {
@@ -102,122 +119,61 @@
 .payment-instructions {
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-color);
 }
 
 .order-details h4,
 .payment-instructions h4 {
   margin-top: 0;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .order-details p,
 .payment-instructions p {
   margin: 0.5rem 0;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .payment-instructions p strong {
-  color: #333;
+  color: var(--text-primary);
 }
 
 .payment-note {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: rgba(242, 192, 104, 0.14);
+  color: var(--text-primary);
   padding: 0.75rem 1rem;
-  border-radius: 6px;
+  border-radius: 10px;
   margin-top: 1rem;
+  border: 1px solid rgba(242, 192, 104, 0.42);
 }
 
 .binance-link {
   display: inline-block;
   margin-top: 1.5rem;
   padding: 0.75rem 1.5rem;
-  background-color: #fcd535;
-  color: #181a20;
+  background-color: var(--primary-strong);
+  color: var(--text-primary);
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: 10px;
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  border: 1px solid var(--primary-strong);
 }
 
 .binance-link:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(252, 213, 53, 0.4);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  background-color: var(--primary);
+  border-color: var(--primary);
 }
 
-/* Dark Mode overrides */
-body.dark-mode .checkout-container {
-  background-color: #121212;
-  color: #f5f5f5;
-}
+@media (max-width: 900px) {
+  .checkout-content {
+    grid-template-columns: 1fr;
+  }
 
-body.dark-mode .checkout-container h2 {
-  color: #f5f5f5;
-}
-
-body.dark-mode .checkout-content {
-  gap: 2rem;
-}
-
-body.dark-mode .user-data,
-body.dark-mode .cart-summary {
-  background-color: #1c1f24;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-  border: 1px solid #2a2e36;
-}
-
-body.dark-mode .user-data h3,
-body.dark-mode .cart-summary h3 {
-  color: #f5f5f5;
-  border-color: #2a2e36;
-}
-
-body.dark-mode .user-data p,
-body.dark-mode .cart-summary span,
-body.dark-mode .order-details p,
-body.dark-mode .payment-instructions p {
-  color: #d1d5db;
-}
-
-body.dark-mode .user-data p strong,
-body.dark-mode .order-details p strong,
-body.dark-mode .payment-instructions p strong {
-  color: #fcd535;
-}
-
-body.dark-mode .cart-summary .cart-total-summary {
-  color: #f5f5f5;
-  border-color: #2a2e36;
-}
-
-body.dark-mode .checkout-status {
-  background-color: #1f2933;
-  color: #cbd5f5;
-}
-
-body.dark-mode .checkout-error {
-  background-color: #7f1d1d;
-  color: #fee2e2;
-}
-
-body.dark-mode .order-details,
-body.dark-mode .payment-instructions {
-  border-color: #2a2e36;
-}
-
-body.dark-mode .payment-note {
-  background-color: #3b2f12;
-  color: #fcd34d;
-}
-
-body.dark-mode .binance-link {
-  background-color: #fcd535;
-  color: #121212;
-  box-shadow: 0 6px 12px rgba(252, 213, 53, 0.25);
-}
-
-body.dark-mode .binance-link:hover {
-  box-shadow: 0 6px 16px rgba(252, 213, 53, 0.45);
+  .checkout-container {
+    padding-inline: 1rem;
+  }
 }

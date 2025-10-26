@@ -1,87 +1,98 @@
-
 .catalog-container {
-  padding: 4rem 2rem;
-  max-width: 1400px;
+  padding: 4rem 1.5rem 5rem;
+  max-width: 1280px;
   margin: 0 auto;
+  color: var(--text-primary);
 }
 
 .catalog-title {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
 .catalog-title h2 {
-  font-size: 3rem;
+  font-size: clamp(2rem, 4vw, 3rem);
   margin-bottom: 0.5rem;
-  color: #333;
-  transition: color 0.3s ease;
+  color: var(--text-primary);
 }
 
 .catalog-title p {
   font-size: 1.2rem;
-  color: #777;
-  transition: color 0.3s ease;
+  color: var(--text-secondary);
 }
 
 .controls-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .filter-container {
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .filter-container button {
-  margin: 0 0.5rem;
-  padding: 0.8rem 1.5rem;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-alt);
   font-size: 1rem;
-  font-weight: 500;
-  color: #555;
+  font-weight: 600;
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 30px;
+  transition: all 0.2s ease;
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
 }
 
 .filter-container button:hover {
-  background-color: #f8f8f8;
-  color: #e89a1f;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border-color: var(--primary);
 }
 
 .filter-container button.active {
-  background-color: #e89a1f;
-  color: #fff;
-  border-color: #e89a1f;
+  background-color: var(--primary-strong);
+  color: var(--text-primary);
+  border-color: var(--primary-strong);
 }
 
 .search-sort-container {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
 }
 
-.search-input, .sort-select {
-  padding: 0.8rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 30px;
+.search-input,
+.sort-select {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   font-size: 1rem;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  background: var(--muted-surface);
+  color: var(--text-primary);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
-.search-input {
-  margin-right: 1rem;
+.search-input:focus,
+.sort-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(116, 195, 174, 0.18);
 }
 
 .products-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
 .catalog-status,
@@ -89,38 +100,42 @@
   grid-column: 1 / -1;
   text-align: center;
   font-size: 1.1rem;
-  padding: 2rem 1rem;
-  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
 }
 
 .catalog-status {
-  background-color: #f9fafb;
-  color: #555;
+  background-color: var(--surface);
+  color: var(--text-secondary);
 }
 
 .catalog-error {
-  background-color: #fee2e2;
-  color: #b91c1c;
+  background-color: rgba(243, 108, 108, 0.12);
+  color: var(--danger);
+  border-color: rgba(243, 108, 108, 0.45);
 }
 
 .product-card {
-  background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  background-color: var(--surface-alt);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--border-color);
 }
 
 .product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-10px);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.4);
+  border-color: var(--primary);
 }
 
 .product-image-container {
   width: 100%;
-  height: 250px;
+  height: 230px;
   overflow: hidden;
 }
 
@@ -131,7 +146,7 @@
 }
 
 .product-info {
-  padding: 1.5rem;
+  padding: 1.35rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -141,13 +156,14 @@
 .product-info h3 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .product-info p {
-  color: #777;
+  color: var(--text-secondary);
   margin-bottom: 1rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .product-footer {
@@ -157,26 +173,29 @@
 }
 
 .price {
-  font-weight: bold;
-  font-size: 1.3rem;
-  color: #e89a1f;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--primary);
 }
 
 .add-to-cart-btn {
-  background: #e89a1f;
-  color: #fff;
-  border: none;
-  padding: 0.8rem 1.2rem;
-  border-radius: 10px;
+  background: var(--primary-strong);
+  color: var(--text-primary);
+  border: 1px solid var(--primary-strong);
+  padding: 0.7rem 1.1rem;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background 0.3s ease;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   display: flex;
   align-items: center;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
 }
 
 .add-to-cart-btn:hover {
-  background: #d78f1e;
+  background: var(--primary);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.34);
+  transform: translateY(-1px);
 }
 
 @media screen and (max-width: 768px) {
@@ -191,20 +210,18 @@
 
   .search-sort-container {
     width: 100%;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .search-input {
-    width: 60%;
-  }
-
+  .search-input,
   .sort-select {
-    width: 35%;
+    width: 100%;
   }
 
   .products-container {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
   }
 
   .catalog-title h2 {
@@ -213,28 +230,5 @@
 
   .catalog-title p {
     font-size: 1rem;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .filter-container button {
-    margin: 0.5rem;
-  }
-
-  .products-container {
-    grid-template-columns: 1fr;
-  }
-
-  .product-info h3 {
-    font-size: 1.2rem;
-  }
-
-  .price {
-    font-size: 1.1rem;
-  }
-
-  .add-to-cart-btn {
-    font-size: 0.9rem;
-    padding: 0.6rem 1rem;
   }
 }

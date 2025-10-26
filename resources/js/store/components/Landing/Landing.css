@@ -1,185 +1,223 @@
-
 .landing-container {
   width: 100%;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 }
 
-/* Hero Section */
 .hero-section {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  color: #fff;
+  min-height: 78vh;
+  color: var(--text-primary);
   text-align: center;
   padding: 0 2rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 14, 20, 0.7);
+}
+
+.hero-content {
+  position: relative;
+  max-width: 720px;
 }
 
 .hero-content h1 {
-  font-size: 4rem;
-  font-weight: bold;
+  font-size: clamp(2.8rem, 4vw, 4.5rem);
+  font-weight: 800;
   margin-bottom: 1rem;
+  letter-spacing: 0.5px;
 }
 
 .hero-content p {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin-bottom: 2rem;
+  color: var(--text-secondary);
 }
 
 .hero-button {
   display: inline-flex;
   align-items: center;
-  background-color: #e89a1f;
-  color: #fff;
-  padding: 1rem 2rem;
-  border-radius: 50px;
+  background: var(--primary-strong);
+  color: var(--text-primary);
+  padding: 0.95rem 1.8rem;
+  border-radius: 14px;
   text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
 }
 
 .hero-button:hover {
-  background-color: #d78f1e;
+  transform: translateY(-2px);
+  background: var(--primary);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.32);
 }
 
 .hero-button svg {
   margin-left: 0.5rem;
 }
 
-/* About Us Section */
 .about-section {
-  padding: 4rem 2rem;
-  background-color: #f9f9f9;
-  transition: background-color 0.3s ease;
+  padding: 2rem clamp(1.5rem, 5vw, 3rem);
+  background-color: var(--surface-alt);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .about-content {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   align-items: center;
-  justify-content: space-between;
+  gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  gap: 2rem;
-}
-
-.about-text {
-  flex: 1;
 }
 
 .about-text h2 {
-  font-size: 2.5rem;
+  font-size: 2.4rem;
   margin-bottom: 1rem;
-  transition: color 0.3s ease;
+  color: var(--text-primary);
 }
 
-.about-image {
-  flex: 1;
+.about-text p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 1.05rem;
 }
 
 .about-image img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  object-fit: cover;
 }
 
-/* Featured Products Section */
 .featured-section {
-  padding: 4rem 2rem;
+  padding: 2rem clamp(1.5rem, 5vw, 3rem);
   text-align: center;
-  transition: background-color 0.3s ease;
+  background: var(--surface);
 }
 
 .featured-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  transition: color 0.3s ease;
+  font-size: 2.4rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
 }
 
 .featured-products {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
 }
 
 .featured-product {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  max-width: 300px;
+  background-color: var(--surface-alt);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  padding: 1.25rem;
   text-align: left;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  border: 1px solid var(--border-color);
+}
+
+.featured-product:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.42);
 }
 
 .featured-product img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 1rem;
+  height: 200px;
+  object-fit: cover;
 }
 
 .featured-product h3 {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   margin-bottom: 0.5rem;
-  transition: color 0.3s ease;
+  color: var(--text-primary);
 }
 
-/* Testimonials Section */
+.featured-product p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
 .testimonials-section {
-  padding: 4rem 2rem;
-  background-color: #f9f9f9;
+  padding: 2rem clamp(1.5rem, 5vw, 3rem);
+  background: var(--surface-alt);
   text-align: center;
-  transition: background-color 0.3s ease;
+  border-top: 1px solid var(--border-color);
 }
 
 .testimonials-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  transition: color 0.3s ease;
+  font-size: 2.4rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
 }
 
 .testimonials {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
 }
 
 .testimonial {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--surface);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
   padding: 1.5rem;
-  max-width: 400px;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  border: 1px solid var(--border-color);
+}
+
+.testimonial:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.36);
 }
 
 .testimonial p {
   font-style: italic;
   margin-bottom: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
 .testimonial-author {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.35rem;
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
 .star-icon {
-  color: #e89a1f;
-  margin-right: 0.2rem;
-}
-
-.testimonial-author span {
-  font-weight: bold;
-  margin-left: 0.5rem;
+  color: var(--primary);
 }
 
 @media (max-width: 768px) {
-  .hero-content h1 {
-    font-size: 3rem;
+  .hero-section {
+    min-height: 70vh;
   }
 
-  .about-content {
-    flex-direction: column;
+  .hero-content h1 {
+    font-size: clamp(2.4rem, 6vw, 3rem);
+  }
+
+  .hero-content p {
+    font-size: 1.05rem;
   }
 }

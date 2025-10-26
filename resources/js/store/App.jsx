@@ -30,9 +30,18 @@ function App() {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        const storedCartItems = JSON.parse(localStorage.getItem('cartItems'));
-        if (storedCartItems) {
-            setCartItems(storedCartItems);
+        try {
+            const storedCartItems = localStorage.getItem('cartItems');
+            if (!storedCartItems) {
+                return;
+            }
+            const parsedCart = JSON.parse(storedCartItems);
+            if (Array.isArray(parsedCart)) {
+                setCartItems(parsedCart);
+            }
+        } catch (error) {
+            console.warn('No se pudo leer el carrito desde el almacenamiento local', error);
+            localStorage.removeItem('cartItems');
         }
     }, []);
 

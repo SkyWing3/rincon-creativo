@@ -86,12 +86,12 @@ export default function UpdateProfileInformationForm({
     };
 
     return (
-        <section className={className}>
+        <section className={`space-y-4 text-slate-100 ${className}`}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                <h2 className="text-lg font-medium text-slate-100">
                     Información del Perfil
                 </h2>
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                <p className="mt-1 text-sm text-slate-400">
                     Actualiza la información de tu cuenta y tu dirección de correo.
                 </p>
             </header>
@@ -163,20 +163,20 @@ export default function UpdateProfileInformationForm({
 
                             {mustVerifyEmail && user.email_verified_at === null && (
                                 <div>
-                                    <p className="mt-2 text-sm text-gray-800 dark:text-gray-200">
+                                    <p className="mt-2 text-sm text-slate-300">
                                         Tu dirección de correo no está verificada.
                                         <Link
                                             href={route('verification.send')}
                                             method="post"
                                             as="button"
-                                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                                            className="rounded-md text-sm text-emerald-300 underline hover:text-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900"
                                         >
                                             Haz clic aquí para reenviar el correo de verificación.
                                         </Link>
                                     </p>
 
                                     {status === 'verification-link-sent' && (
-                                        <div className="mt-2 text-sm font-medium text-green-600 dark:text-green-400">
+                                        <div className="mt-2 text-sm font-medium text-emerald-300">
                                             Se ha enviado un nuevo enlace de verificación a tu correo.
                                         </div>
                                     )}
@@ -201,7 +201,7 @@ export default function UpdateProfileInformationForm({
                                 <InputLabel htmlFor="departamento" value="Departamento" />
                                 <select
                                     id="departamento"
-                                    className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700"
+                                    className="mt-1 block w-full rounded-md border border-slate-800 bg-slate-900 text-slate-100 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
                                     value={data.departamento}
                                     onChange={(e) => setData('departamento', e.target.value)}
                                     required
@@ -251,7 +251,7 @@ export default function UpdateProfileInformationForm({
                                 leave="transition ease-in-out"
                                 leaveTo="opacity-0"
                             >
-                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                <p className="text-sm text-slate-400">
                                     Guardado.
                                 </p>
                             </Transition>
@@ -262,7 +262,7 @@ export default function UpdateProfileInformationForm({
                     <div className="w-full md:w-1/3 flex flex-col items-center justify-start pt-6">
                         <div className="relative">
                             {/* Marco de la foto */}
-                            <div className="h-40 w-40 rounded-full overflow-hidden border-4 border-white bg-white shadow-lg ring-2 ring-gray-100 dark:ring-gray-700">
+                            <div className="h-40 w-40 overflow-hidden rounded-full border-4 border-slate-800 bg-slate-900 shadow-lg ring-2 ring-slate-800">
                                 <img
                                     src={
                                         data.photo_url ||
@@ -274,13 +274,13 @@ export default function UpdateProfileInformationForm({
                             </div>
                             
                             <div className="mt-4 flex items-center gap-3">
-                                <p className="text-center text-sm text-gray-500 font-medium">
+                                <p className="text-center text-sm font-medium text-slate-400">
                                     Foto de perfil
                                 </p>
                                 <button
                                     type="button"
                                     onClick={() => setShowPhotoOptions((prev) => !prev)}
-                                    className="rounded-full border border-indigo-500 px-2 py-1 text-xs font-medium text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/50"
+                                    className="rounded-full border border-emerald-500 px-2 py-1 text-xs font-semibold text-emerald-200 hover:bg-slate-800"
                                     aria-expanded={showPhotoOptions}
                                 >
                                     Cambiar
@@ -288,7 +288,7 @@ export default function UpdateProfileInformationForm({
                             </div>
                             {showPhotoOptions && (
                                 <div className="mt-4 w-64">
-                                    <p className="text-xs text-gray-500 uppercase tracking-wide">
+                                    <p className="text-xs uppercase tracking-wide text-slate-400">
                                         Selecciona una opción
                                     </p>
                                     <div className="mt-2 grid grid-cols-2 gap-3">
@@ -297,14 +297,14 @@ export default function UpdateProfileInformationForm({
                                                 type="button"
                                                 key={photo.url}
                                                 onClick={() => handlePhotoSelect(photo.url)}
-                                                className="rounded-lg border border-gray-200 p-1 text-left hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                className="rounded-lg border border-slate-800 p-1 text-left hover:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900"
                                             >
                                                 <img
                                                     src={photo.url}
                                                     alt={photo.label}
                                                     className="h-20 w-full rounded-md object-cover"
                                                 />
-                                                <span className="mt-1 block text-xs font-medium text-gray-600">
+                                                <span className="mt-1 block text-xs font-medium text-slate-300">
                                                     {photo.label}
                                                 </span>
                                             </button>

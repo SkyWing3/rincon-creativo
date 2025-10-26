@@ -8,7 +8,7 @@ export default function Edit({ mustVerifyEmail, status }: { mustVerifyEmail: boo
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <h2 className="text-xl font-semibold leading-tight text-slate-100">
                     Mi Perfil
                 </h2>
             }
@@ -18,7 +18,7 @@ export default function Edit({ mustVerifyEmail, status }: { mustVerifyEmail: boo
             <div className="py-12">
                 <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
                     {/* CAMBIO: Aumenté el ancho máximo a max-w-4xl solo en este bloque para que quepan la foto y los datos */}
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
+                    <div className="rounded-lg border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-8">
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status ?? undefined}
@@ -26,11 +26,11 @@ export default function Edit({ mustVerifyEmail, status }: { mustVerifyEmail: boo
                         />
                     </div>
 
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
+                    <div className="rounded-lg border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-8">
                         <UpdatePasswordForm className="max-w-xl" />
                     </div>
 
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
+                    <div className="rounded-lg border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-8">
                         <DeleteUserForm className="max-w-xl" />
                     </div>
                 </div>

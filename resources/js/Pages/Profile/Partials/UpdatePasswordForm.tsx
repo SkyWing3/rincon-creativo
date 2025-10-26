@@ -49,13 +49,13 @@ export default function UpdatePasswordForm({
     };
 
     return (
-        <section className={className}>
+        <section className={`space-y-4 text-slate-100 ${className}`}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                <h2 className="text-lg font-medium text-slate-100">
                     Cambiar contraseña
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                <p className="mt-1 text-sm text-slate-400">
                     Asegúrate de que tu cuenta utilice una contraseña larga y 
                     aleatoria para mantenerse segura.
                 </p>
@@ -135,7 +135,7 @@ export default function UpdatePasswordForm({
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <p className="text-sm text-slate-400">
                             Guardado.
                         </p>
                     </Transition>

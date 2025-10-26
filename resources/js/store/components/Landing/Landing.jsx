@@ -40,10 +40,7 @@ const Landing = ({ imageUrl = 'https://www.conartesanos.com/wp-content/uploads/2
         className="hero-section"
         variants={itemVariants}
         style={{
-          background: `
-            linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-            url('${imageUrl}') no-repeat center center/cover
-          `,
+          background: `url('${imageUrl}') no-repeat center center / cover`,
         }}
       >
         <div className="hero-content">

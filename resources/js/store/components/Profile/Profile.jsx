@@ -259,8 +259,7 @@ const Profile = () => {
                                 </button>
                                 <button
                                     onClick={handleCancel}
-                                    className="edit-btn"
-                                    style={{ marginLeft: '10px', backgroundColor: '#7f8c8d' }}
+                                    className="edit-btn edit-btn--secondary"
                                 >
                                     Cancelar
                                 </button>
@@ -273,7 +272,6 @@ const Profile = () => {
                                 <button
                                     onClick={() => setShowOrders(true)}
                                     className="edit-btn"
-                                    style={{ marginLeft: '10px' }}
                                     disabled={!orders.length}
                                 >
                                     Mis Pedidos
