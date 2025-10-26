@@ -1,9 +1,4 @@
-import axios from 'axios';
-
-const api = axios.create({
-    baseURL: '/api',
-    withCredentials: true,
-});
+import api from './apiClient';
 
 const extractList = (payload) => {
     if (Array.isArray(payload?.data)) {

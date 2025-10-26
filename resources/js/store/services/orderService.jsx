@@ -1,11 +1,9 @@
-import axios from 'axios';
+import api, { ensureCsrfToken } from './apiClient';
 
-const api = axios.create({
-    baseURL: '/api',
-    withCredentials: true,
-});
-
-const createOrder = (payload) => api.post('/orders', payload);
+const createOrder = async (payload) => {
+    await ensureCsrfToken();
+    return api.post('/orders', payload);
+};
 
 const orderService = {
     createOrder,

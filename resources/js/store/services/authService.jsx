@@ -1,19 +1,22 @@
-import axios from 'axios';
+import api, { ensureCsrfToken } from './apiClient';
 
-const api = axios.create({
-    baseURL: '/api',
-    withCredentials: true,
-});
+const register = async (payload) => {
+    await ensureCsrfToken();
+    return api.post('/register', payload);
+};
 
-const register = (payload) => api.post('/register', payload);
-
-const login = (email, password) =>
-    api.post('/login', {
+const login = async (email, password) => {
+    await ensureCsrfToken();
+    return api.post('/login', {
         email,
         password,
     });
+};
 
-const logout = () => api.post('/logout');
+const logout = async () => {
+    await ensureCsrfToken();
+    return api.post('/logout');
+};
 
 const getProfile = () => api.get('/profile');
 

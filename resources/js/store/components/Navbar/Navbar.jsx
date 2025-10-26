@@ -34,7 +34,8 @@ const Navbar = ({ cartItemCount }) => {
       console.error('Error al cerrar sesión', error);
     } finally {
       setSideDrawerOpen(false);
-      navigate('/');
+      // Recarga completa y envía a inicio para limpiar cualquier estado residual.
+      window.location.href = '/store';
     }
   };
 
