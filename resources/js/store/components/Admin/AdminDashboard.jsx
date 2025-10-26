@@ -63,6 +63,8 @@ const AdminDashboard = () => {
     const [roleSelections, setRoleSelections] = useState({});
     const [savingUserRoles, setSavingUserRoles] = useState({});
     const [userFeedback, setUserFeedback] = useState(null);
+    const [showProductForm, setShowProductForm] = useState(false);
+    const [showCategoryForm, setShowCategoryForm] = useState(false);
 
     const resolveErrorMessage = (err, fallback) => {
         const serverMessage =
@@ -360,6 +362,44 @@ const AdminDashboard = () => {
         }
     };
 
+    const resetProductForm = () => {
+        setProductForm(() => ({ ...initialProductFormState }));
+        setProductFeedback(null);
+    };
+
+    const resetCategoryForm = () => {
+        setCategoryForm(() => ({ ...initialCategoryFormState }));
+        setCategoryFeedback(null);
+    };
+
+    const startNewProduct = () => {
+        resetProductForm();
+        setEditingProductId(null);
+        setShowProductForm(true);
+    };
+
+    const hideProductForm = () => {
+        setShowProductForm(false);
+        setProductFeedback(null);
+        if (editingProductId !== null) {
+            setEditingProductId(null);
+        }
+    };
+
+    const startNewCategory = () => {
+        resetCategoryForm();
+        setEditingCategoryId(null);
+        setShowCategoryForm(true);
+    };
+
+    const hideCategoryForm = () => {
+        setShowCategoryForm(false);
+        setCategoryFeedback(null);
+        if (editingCategoryId !== null) {
+            setEditingCategoryId(null);
+        }
+    };
+
     const handleProductInputChange = ({ target }) => {
         const { name, value } = target;
         setProductForm((prev) => ({
@@ -498,6 +538,7 @@ const AdminDashboard = () => {
             if (isEditing) {
                 setEditingProductId(null);
             }
+            setShowProductForm(false);
             await fetchAdminData();
         } catch (err) {
             setProductFeedback({
@@ -554,6 +595,7 @@ const AdminDashboard = () => {
             if (isEditing) {
                 setEditingCategoryId(null);
             }
+            setShowCategoryForm(false);
             await fetchAdminData();
         } catch (err) {
             setCategoryFeedback({
@@ -571,6 +613,7 @@ const AdminDashboard = () => {
     const handleEditProduct = (product) => {
         setProductFeedback(null);
         setEditingProductId(product.id);
+        setShowProductForm(true);
         setProductForm({
             nombre: product.nombre || product.name || '',
             descripcion: product.descripcion || product.description || '',
@@ -596,6 +639,7 @@ const AdminDashboard = () => {
         setEditingProductId(null);
         setProductForm(() => ({ ...initialProductFormState }));
         setProductFeedback(null);
+        setShowProductForm(false);
     };
 
     const handleDeleteProduct = async (productId) => {
@@ -629,6 +673,7 @@ const AdminDashboard = () => {
     const handleEditCategory = (category) => {
         setCategoryFeedback(null);
         setEditingCategoryId(category.id);
+        setShowCategoryForm(true);
         setCategoryForm({
             nombre: category.nombre || category.name || '',
             descripcion: category.descripcion || category.description || '',
@@ -639,6 +684,7 @@ const AdminDashboard = () => {
         setEditingCategoryId(null);
         setCategoryForm(() => ({ ...initialCategoryFormState }));
         setCategoryFeedback(null);
+        setShowCategoryForm(false);
     };
 
     const handleDeleteCategory = async (categoryId) => {
@@ -672,7 +718,8 @@ const AdminDashboard = () => {
     return (
         <div className="admin-dashboard">
             <header className="admin-dashboard-header">
-                <div>
+                <div className="admin-header-copy">
+                    <p className="admin-kicker">Panel interno</p>
                     <h1>Panel de Administración</h1>
                     {user && (
                         <p className="admin-dashboard-user">
@@ -680,463 +727,551 @@ const AdminDashboard = () => {
                         </p>
                     )}
                 </div>
-                <button className="admin-logout" onClick={handleLogout}>
-                    Cerrar sesión
-                </button>
+                <div className="admin-header-actions">
+                    <button className="admin-ghost" onClick={fetchAdminData} disabled={isLoading}>
+                        {isLoading ? 'Actualizando...' : 'Refrescar datos'}
+                    </button>
+                    <button className="admin-logout" onClick={handleLogout}>
+                        Cerrar sesión
+                    </button>
+                </div>
             </header>
             {error && (
                 <div className="admin-error-card">
-                    <p>{error}</p>
-                    <button className="admin-retry" onClick={fetchAdminData} disabled={isLoading}>
+                    <div>
+                        <p className="admin-error-title">Algo salió mal</p>
+                        <p className="admin-error-copy">{error}</p>
+                    </div>
+                    <button className="admin-ghost" onClick={fetchAdminData} disabled={isLoading}>
                         Reintentar
                     </button>
                 </div>
             )}
-            <section className="admin-section">
-                <div className="admin-section-header">
-                    <h2>Usuarios registrados</h2>
-                    {isLoading && <span className="admin-section-status">Cargando...</span>}
-                    {!isLoading && users.length > 0 && (
-                        <span className="admin-section-status">{users.length} usuarios</span>
-                    )}
-                </div>
-                {userFeedback && (
-                    <p
-                        className={`admin-feedback ${
-                            userFeedback.type === 'error' ? 'error' : 'success'
-                        }`}
-                    >
-                        {userFeedback.message}
-                    </p>
-                )}
-                {!isLoading && users.length === 0 && !error && (
-                    <p className="admin-section-empty">No se encontraron usuarios.</p>
-                )}
-                {users.length > 0 && (
-                    <div className="admin-table-wrapper">
-                        <table className="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                    <th>Rol</th>
-                                    <th>Teléfono</th>
-                                    <th>Departamento</th>
-                                    <th>Registrado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {users.map((record) => {
-                                    const currentRole = resolveUserRole(record);
-                                    const pendingRole = roleSelections[record.id] ?? currentRole;
-                                    const isSavingRole = Boolean(savingUserRoles[record.id]);
-                                    const hasPendingChange = pendingRole !== currentRole;
-                                    return (
-                                        <tr key={record.id}>
-                                            <td>{record.id}</td>
-                                            <td>{formatFullName(record)}</td>
-                                            <td>{record.email || 'N/D'}</td>
-                                            <td>
-                                                <div className="admin-role-control">
-                                                    <select
-                                                        className="admin-role-select"
-                                                        value={pendingRole}
-                                                        onChange={(event) =>
-                                                            handleRoleSelectChange(record.id, event.target.value)
-                                                        }
-                                                        disabled={isSavingRole}
-                                                    >
-                                                        {ROLE_OPTIONS.map((role) => (
-                                                            <option key={role} value={role}>
-                                                                {ROLE_LABELS[role] || role}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                    <button
-                                                        type="button"
-                                                        className="admin-secondary admin-role-save"
-                                                        onClick={() => handleUpdateUserRole(record.id)}
-                                                        disabled={!hasPendingChange || isSavingRole}
-                                                    >
-                                                        {isSavingRole ? 'Guardando...' : 'Actualizar'}
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>{record.phone || 'N/D'}</td>
-                                            <td>{record.departamento || 'N/D'}</td>
-                                            <td>
-                                                {record.registrado_el ||
-                                                    formatDate(record.created_at || record.createdAt)}
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-            </section>
-            <section className="admin-section">
-                <div className="admin-section-header">
-                    <h2>Pedidos recibidos</h2>
-                    {isLoading && <span className="admin-section-status">Cargando...</span>}
-                    {!isLoading && orders.length > 0 && (
-                        <span className="admin-section-status">{orders.length} pedidos</span>
-                    )}
-                </div>
-                {!isLoading && orders.length === 0 && !error && (
-                    <p className="admin-section-empty">No se encontraron pedidos.</p>
-                )}
-                {orders.length > 0 && (
-                    <div className="admin-table-wrapper">
-                        <table className="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Cliente</th>
-                                    <th>Estado</th>
-                                    <th>Total</th>
-                                    <th>Descuento</th>
-                                    <th>Creado</th>
-                                    <th>Actualizado</th>
-                                    <th>Detalles</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {orders.map((order) => (
-                                    <tr key={order.id}>
-                                        <td>{order.id}</td>
-                                        <td>{resolveOrderCustomer(order)}</td>
-                                        <td className="admin-capitalize">
-                                            {translateOrderStatus(order.status || order.state)}
-                                        </td>
-                                        <td>{formatCurrency(order.total ?? order.total_amount ?? order.amount)}</td>
-                                        <td>{formatPercentage(order.global_discount)}</td>
-                                        <td>{formatDate(order.created_at || order.createdAt)}</td>
-                                        <td>{formatDate(order.updated_at || order.updatedAt)}</td>
-                                        <td>{summarizeOrderDetails(order.details)}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-            </section>
-            <section className="admin-section">
-                <div className="admin-section-header">
-                    <h2>Productos</h2>
-                    {isLoading && <span className="admin-section-status">Cargando...</span>}
-                    {!isLoading && products.length > 0 && (
-                        <span className="admin-section-status">{products.length} productos</span>
-                    )}
-                </div>
-                <div className="admin-section-form">
-                    <h3>{editingProductId ? 'Editar producto' : 'Agregar producto'}</h3>
-                    <form className="admin-form" onSubmit={handleProductSubmit}>
-                        <label className="admin-form-label" htmlFor="product-nombre">
-                            Nombre *
-                        </label>
-                        <input
-                            id="product-nombre"
-                            name="nombre"
-                            className="admin-form-input"
-                            type="text"
-                            value={productForm.nombre}
-                            onChange={handleProductInputChange}
-                            placeholder="Nombre del producto"
-                            required
-                        />
 
-                        <label className="admin-form-label" htmlFor="product-descripcion">
-                            Descripción
-                        </label>
-                        <textarea
-                            id="product-descripcion"
-                            name="descripcion"
-                            className="admin-form-input"
-                            value={productForm.descripcion}
-                            onChange={handleProductInputChange}
-                            placeholder="Descripción breve"
-                            rows={3}
-                        />
-
-                        <label className="admin-form-label" htmlFor="product-precio">
-                            Precio *
-                        </label>
-                        <input
-                            id="product-precio"
-                            name="precio"
-                            className="admin-form-input"
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            value={productForm.precio}
-                            onChange={handleProductInputChange}
-                            placeholder="0.00"
-                            required
-                        />
-
-                        <label className="admin-form-label" htmlFor="product-stock">
-                            Stock *
-                        </label>
-                        <input
-                            id="product-stock"
-                            name="stock"
-                            className="admin-form-input"
-                            type="number"
-                            min="0"
-                            step="1"
-                            value={productForm.stock}
-                            onChange={handleProductInputChange}
-                            placeholder="0"
-                            required
-                        />
-
-                        <label className="admin-form-label" htmlFor="product-imagen">
-                            URL de la imagen
-                        </label>
-                        <input
-                            id="product-imagen"
-                            name="imagen_url"
-                            className="admin-form-input"
-                            type="url"
-                            value={productForm.imagen_url}
-                            onChange={handleProductInputChange}
-                            placeholder="https://"
-                        />
-
-                        <label className="admin-form-label" htmlFor="product-categoria">
-                            Categoría *
-                        </label>
-                        <select
-                            id="product-categoria"
-                            name="category_id"
-                            className="admin-form-input"
-                            value={productForm.category_id}
-                            onChange={handleProductInputChange}
-                            disabled={categories.length === 0}
-                            required
-                        >
-                            <option value="">Selecciona una categoría</option>
-                            {categories.map((category) => (
-                                <option key={category.id} value={String(category.id)}>
-                                    {category.nombre || category.name} (ID {category.id})
-                                </option>
-                            ))}
-                        </select>
-                        {categories.length === 0 && (
-                            <p className="admin-form-note">
-                                Crea una categoría antes de registrar productos.
+            <div className="admin-timeline">
+                <div className="admin-node">
+                    <span className="admin-marker users" />
+                    <div className="admin-node-body">
+                        <div className="admin-section-header">
+                            <div>
+                                <p className="admin-kicker">Personas</p>
+                                <h2>Usuarios registrados</h2>
+                                <p className="admin-subtitle">Líneas simples, roles editables y estados claros.</p>
+                            </div>
+                            <div className="admin-section-meta">
+                                {isLoading && <span className="admin-chip muted">Cargando...</span>}
+                                {!isLoading && users.length > 0 && (
+                                    <span className="admin-chip">{users.length} usuarios</span>
+                                )}
+                            </div>
+                        </div>
+                        {userFeedback && (
+                            <p
+                                className={`admin-feedback ${
+                                    userFeedback.type === 'error' ? 'error' : 'success'
+                                }`}
+                            >
+                                {userFeedback.message}
                             </p>
                         )}
+                        {!isLoading && users.length === 0 && !error && (
+                            <p className="admin-section-empty">No se encontraron usuarios.</p>
+                        )}
+                        {users.length > 0 && (
+                            <div className="admin-table-wrapper line">
+                                <table className="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre</th>
+                                            <th>Correo</th>
+                                            <th>Rol</th>
+                                            <th>Teléfono</th>
+                                            <th>Departamento</th>
+                                            <th>Registrado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {users.map((record) => {
+                                            const currentRole = resolveUserRole(record);
+                                            const pendingRole = roleSelections[record.id] ?? currentRole;
+                                            const isSavingRole = Boolean(savingUserRoles[record.id]);
+                                            const hasPendingChange = pendingRole !== currentRole;
+                                            return (
+                                                <tr key={record.id}>
+                                                    <td>{record.id}</td>
+                                                    <td>{formatFullName(record)}</td>
+                                                    <td>{record.email || 'N/D'}</td>
+                                                    <td>
+                                                        <div className="admin-role-control">
+                                                            <select
+                                                                className="admin-role-select"
+                                                                value={pendingRole}
+                                                                onChange={(event) =>
+                                                                    handleRoleSelectChange(record.id, event.target.value)
+                                                                }
+                                                                disabled={isSavingRole}
+                                                            >
+                                                                {ROLE_OPTIONS.map((role) => (
+                                                                    <option key={role} value={role}>
+                                                                        {ROLE_LABELS[role] || role}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                            <button
+                                                                type="button"
+                                                                className="admin-secondary admin-role-save"
+                                                                onClick={() => handleUpdateUserRole(record.id)}
+                                                                disabled={!hasPendingChange || isSavingRole}
+                                                            >
+                                                                {isSavingRole ? 'Guardando...' : 'Actualizar'}
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    <td>{record.phone || 'N/D'}</td>
+                                                    <td>{record.departamento || 'N/D'}</td>
+                                                    <td>
+                                                        {record.registrado_el ||
+                                                            formatDate(record.created_at || record.createdAt)}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+                </div>
 
-                        <div className="admin-form-actions">
-                            <button
-                                type="submit"
-                                className="admin-submit"
-                                disabled={isSavingProduct || isLoading}
-                            >
-                                {isSavingProduct
-                                    ? 'Guardando...'
-                                    : editingProductId
-                                    ? 'Guardar cambios'
-                                    : 'Agregar producto'}
-                            </button>
-                            {editingProductId && (
+                <div className="admin-node">
+                    <span className="admin-marker orders" />
+                    <div className="admin-node-body">
+                        <div className="admin-section-header">
+                            <div>
+                                <p className="admin-kicker">Flujo</p>
+                                <h2>Pedidos recibidos</h2>
+                                <p className="admin-subtitle">Revisa estados y totales en una sola línea.</p>
+                            </div>
+                            <div className="admin-section-meta">
+                                {isLoading && <span className="admin-chip muted">Cargando...</span>}
+                                {!isLoading && orders.length > 0 && (
+                                    <span className="admin-chip">{orders.length} pedidos</span>
+                                )}
+                            </div>
+                        </div>
+                        {!isLoading && orders.length === 0 && !error && (
+                            <p className="admin-section-empty">No se encontraron pedidos.</p>
+                        )}
+                        {orders.length > 0 && (
+                            <div className="admin-table-wrapper line">
+                                <table className="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Cliente</th>
+                                            <th>Estado</th>
+                                            <th>Total</th>
+                                            <th>Descuento</th>
+                                            <th>Creado</th>
+                                            <th>Actualizado</th>
+                                            <th>Detalles</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {orders.map((order) => (
+                                            <tr key={order.id}>
+                                                <td>{order.id}</td>
+                                                <td>{resolveOrderCustomer(order)}</td>
+                                                <td className="admin-capitalize">
+                                                    {translateOrderStatus(order.status || order.state)}
+                                                </td>
+                                                <td>{formatCurrency(order.total ?? order.total_amount ?? order.amount)}</td>
+                                                <td>{formatPercentage(order.global_discount)}</td>
+                                                <td>{formatDate(order.created_at || order.createdAt)}</td>
+                                                <td>{formatDate(order.updated_at || order.updatedAt)}</td>
+                                                <td>{summarizeOrderDetails(order.details)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="admin-node">
+                    <span className="admin-marker products" />
+                    <div className="admin-node-body">
+                        <div className="admin-section-header">
+                            <div>
+                                <p className="admin-kicker">Inventario</p>
+                                <h2>Productos</h2>
+                                <p className="admin-subtitle">Líneas limpias para ver stock y precios rápidamente.</p>
+                            </div>
+                            <div className="admin-section-meta">
+                                {isLoading && <span className="admin-chip muted">Cargando...</span>}
+                                {!isLoading && products.length > 0 && (
+                                    <span className="admin-chip">{products.length} productos</span>
+                                )}
                                 <button
                                     type="button"
-                                    className="admin-secondary"
-                                    onClick={handleCancelProductEdit}
+                                    className="admin-ghost"
+                                    onClick={() =>
+                                        showProductForm || editingProductId ? hideProductForm() : startNewProduct()
+                                    }
                                     disabled={isSavingProduct}
                                 >
-                                    Cancelar
+                                    {showProductForm || editingProductId ? 'Ocultar formulario' : 'Agregar producto'}
                                 </button>
-                            )}
+                            </div>
                         </div>
-                    </form>
-                    {productFeedback && (
-                        <p
-                            className={`admin-feedback ${
-                                productFeedback.type === 'error' ? 'error' : 'success'
-                            }`}
-                        >
-                            {productFeedback.message}
-                        </p>
-                    )}
-                </div>
-                {!isLoading && products.length === 0 && !error && (
-                    <p className="admin-section-empty">No se encontraron productos.</p>
-                )}
-                {products.length > 0 && (
-                    <div className="admin-table-wrapper">
-                        <table className="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Categoría</th>
-                                    <th>Precio</th>
-                                    <th>Stock</th>
-                                    <th>Actualizado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {products.map((product) => (
-                                    <tr key={product.id}>
-                                        <td>{product.id}</td>
-                                        <td>{product.nombre || product.name || 'N/D'}</td>
-                                        <td>{resolveProductCategory(product)}</td>
-                                        <td>{formatCurrency(product.precio ?? product.price)}</td>
-                                        <td>{product.stock ?? 'N/D'}</td>
-                                        <td>{formatDate(product.updated_at || product.updatedAt)}</td>
-                                        <td className="admin-actions">
-                                            <button
-                                                type="button"
-                                                className="admin-action-button"
-                                                onClick={() => handleEditProduct(product)}
-                                                disabled={isSavingProduct}
-                                            >
-                                                Editar
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="admin-action-button danger"
-                                                onClick={() => handleDeleteProduct(product.id)}
-                                                disabled={isSavingProduct}
-                                            >
-                                                Eliminar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        {(showProductForm || editingProductId) && (
+                            <div className="admin-section-form inline">
+                                <div className="admin-form-title">
+                                    <h3>{editingProductId ? 'Editar producto' : 'Agregar producto'}</h3>
+                                    {editingProductId && <span className="admin-chip muted">ID {editingProductId}</span>}
+                                </div>
+                                <form className="admin-form" onSubmit={handleProductSubmit}>
+                                    <label className="admin-form-label" htmlFor="product-nombre">
+                                        Nombre *
+                                    </label>
+                                    <input
+                                        id="product-nombre"
+                                        name="nombre"
+                                        className="admin-form-input"
+                                        type="text"
+                                        value={productForm.nombre}
+                                        onChange={handleProductInputChange}
+                                        placeholder="Nombre del producto"
+                                        required
+                                    />
+
+                                    <label className="admin-form-label" htmlFor="product-descripcion">
+                                        Descripción
+                                    </label>
+                                    <textarea
+                                        id="product-descripcion"
+                                        name="descripcion"
+                                        className="admin-form-input"
+                                        value={productForm.descripcion}
+                                        onChange={handleProductInputChange}
+                                        placeholder="Descripción breve"
+                                        rows={3}
+                                    />
+
+                                    <label className="admin-form-label" htmlFor="product-precio">
+                                        Precio *
+                                    </label>
+                                    <input
+                                        id="product-precio"
+                                        name="precio"
+                                        className="admin-form-input"
+                                        type="number"
+                                        min="0"
+                                        step="0.01"
+                                        value={productForm.precio}
+                                        onChange={handleProductInputChange}
+                                        placeholder="0.00"
+                                        required
+                                    />
+
+                                    <label className="admin-form-label" htmlFor="product-stock">
+                                        Stock *
+                                    </label>
+                                    <input
+                                        id="product-stock"
+                                        name="stock"
+                                        className="admin-form-input"
+                                        type="number"
+                                        min="0"
+                                        step="1"
+                                        value={productForm.stock}
+                                        onChange={handleProductInputChange}
+                                        placeholder="0"
+                                        required
+                                    />
+
+                                    <label className="admin-form-label" htmlFor="product-imagen">
+                                        URL de la imagen
+                                    </label>
+                                    <input
+                                        id="product-imagen"
+                                        name="imagen_url"
+                                        className="admin-form-input"
+                                        type="url"
+                                        value={productForm.imagen_url}
+                                        onChange={handleProductInputChange}
+                                        placeholder="https://"
+                                    />
+
+                                    <label className="admin-form-label" htmlFor="product-categoria">
+                                        Categoría *
+                                    </label>
+                                    <select
+                                        id="product-categoria"
+                                        name="category_id"
+                                        className="admin-form-input"
+                                        value={productForm.category_id}
+                                        onChange={handleProductInputChange}
+                                        disabled={categories.length === 0}
+                                        required
+                                    >
+                                        <option value="">Selecciona una categoría</option>
+                                        {categories.map((category) => (
+                                            <option key={category.id} value={String(category.id)}>
+                                                {category.nombre || category.name} (ID {category.id})
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {categories.length === 0 && (
+                                        <p className="admin-form-note">
+                                            Crea una categoría antes de registrar productos.
+                                        </p>
+                                    )}
+
+                                    <div className="admin-form-actions">
+                                        <button
+                                            type="submit"
+                                            className="admin-submit"
+                                            disabled={isSavingProduct || isLoading}
+                                        >
+                                            {isSavingProduct
+                                                ? 'Guardando...'
+                                                : editingProductId
+                                                ? 'Guardar cambios'
+                                                : 'Agregar producto'}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="admin-secondary"
+                                            onClick={handleCancelProductEdit}
+                                            disabled={isSavingProduct}
+                                        >
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                </form>
+                                {productFeedback && (
+                                    <p
+                                        className={`admin-feedback ${
+                                            productFeedback.type === 'error' ? 'error' : 'success'
+                                        }`}
+                                    >
+                                        {productFeedback.message}
+                                    </p>
+                                )}
+                            </div>
+                        )}
+                        {!showProductForm && !editingProductId && (
+                            <p className="admin-section-empty">
+                                Presiona &ldquo;Agregar producto&rdquo; para abrir el formulario en línea.
+                            </p>
+                        )}
+                        {!isLoading && products.length === 0 && !error && (
+                            <p className="admin-section-empty">No se encontraron productos.</p>
+                        )}
+                        {products.length > 0 && (
+                            <div className="admin-table-wrapper line">
+                                <table className="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre</th>
+                                            <th>Categoría</th>
+                                            <th>Precio</th>
+                                            <th>Stock</th>
+                                            <th>Actualizado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {products.map((product) => (
+                                            <tr key={product.id}>
+                                                <td>{product.id}</td>
+                                                <td>{product.nombre || product.name || 'N/D'}</td>
+                                                <td>{resolveProductCategory(product)}</td>
+                                                <td>{formatCurrency(product.precio ?? product.price)}</td>
+                                                <td>{product.stock ?? 'N/D'}</td>
+                                                <td>{formatDate(product.updated_at || product.updatedAt)}</td>
+                                                <td className="admin-actions">
+                                                    <button
+                                                        type="button"
+                                                        className="admin-action-button"
+                                                        onClick={() => handleEditProduct(product)}
+                                                        disabled={isSavingProduct}
+                                                    >
+                                                        Editar
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="admin-action-button danger"
+                                                        onClick={() => handleDeleteProduct(product.id)}
+                                                        disabled={isSavingProduct}
+                                                    >
+                                                        Eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
                     </div>
-                )}
-            </section>
-            <section className="admin-section">
-                <div className="admin-section-header">
-                    <h2>Categorías</h2>
-                    {isLoading && <span className="admin-section-status">Cargando...</span>}
-                    {!isLoading && categories.length > 0 && (
-                        <span className="admin-section-status">{categories.length} categorías</span>
-                    )}
                 </div>
-                <div className="admin-section-form">
-                    <h3>{editingCategoryId ? 'Editar categoría' : 'Agregar categoría'}</h3>
-                    <form className="admin-form" onSubmit={handleCategorySubmit}>
-                        <label className="admin-form-label" htmlFor="category-nombre">
-                            Nombre *
-                        </label>
-                        <input
-                            id="category-nombre"
-                            name="nombre"
-                            className="admin-form-input"
-                            type="text"
-                            value={categoryForm.nombre}
-                            onChange={handleCategoryInputChange}
-                            placeholder="Nombre de la categoría"
-                            required
-                        />
 
-                        <label className="admin-form-label" htmlFor="category-descripcion">
-                            Descripción
-                        </label>
-                        <textarea
-                            id="category-descripcion"
-                            name="descripcion"
-                            className="admin-form-input"
-                            value={categoryForm.descripcion}
-                            onChange={handleCategoryInputChange}
-                            placeholder="Descripción breve"
-                            rows={2}
-                        />
-
-                        <div className="admin-form-actions">
-                            <button
-                                type="submit"
-                                className="admin-submit"
-                                disabled={isSavingCategory || isLoading}
-                            >
-                                {isSavingCategory
-                                    ? 'Guardando...'
-                                    : editingCategoryId
-                                    ? 'Guardar cambios'
-                                    : 'Agregar categoría'}
-                            </button>
-                            {editingCategoryId && (
+                <div className="admin-node">
+                    <span className="admin-marker categories" />
+                    <div className="admin-node-body">
+                        <div className="admin-section-header">
+                            <div>
+                                <p className="admin-kicker">Catálogo</p>
+                                <h2>Categorías</h2>
+                                <p className="admin-subtitle">Agrupa tus productos y mantenlos ordenados.</p>
+                            </div>
+                            <div className="admin-section-meta">
+                                {isLoading && <span className="admin-chip muted">Cargando...</span>}
+                                {!isLoading && categories.length > 0 && (
+                                    <span className="admin-chip">{categories.length} categorías</span>
+                                )}
                                 <button
                                     type="button"
-                                    className="admin-secondary"
-                                    onClick={handleCancelCategoryEdit}
+                                    className="admin-ghost"
+                                    onClick={() =>
+                                        showCategoryForm || editingCategoryId ? hideCategoryForm() : startNewCategory()
+                                    }
                                     disabled={isSavingCategory}
                                 >
-                                    Cancelar
+                                    {showCategoryForm || editingCategoryId ? 'Ocultar formulario' : 'Agregar categoría'}
                                 </button>
-                            )}
+                            </div>
                         </div>
-                    </form>
-                    {categoryFeedback && (
-                        <p
-                            className={`admin-feedback ${
-                                categoryFeedback.type === 'error' ? 'error' : 'success'
-                            }`}
-                        >
-                            {categoryFeedback.message}
-                        </p>
-                    )}
-                </div>
-                {!isLoading && categories.length === 0 && !error && (
-                    <p className="admin-section-empty">No se encontraron categorías.</p>
-                )}
-                {categories.length > 0 && (
-                    <div className="admin-table-wrapper">
-                        <table className="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Descripción</th>
-                                    <th>Creada</th>
-                                    <th>Actualizada</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {categories.map((category) => (
-                                    <tr key={category.id}>
-                                        <td>{category.id}</td>
-                                        <td>{category.nombre || category.name || 'N/D'}</td>
-                                        <td>{category.descripcion || category.description || 'Sin descripción'}</td>
-                                        <td>{formatDate(category.created_at || category.createdAt)}</td>
-                                        <td>{formatDate(category.updated_at || category.updatedAt)}</td>
-                                        <td className="admin-actions">
-                                            <button
-                                                type="button"
-                                                className="admin-action-button"
-                                                onClick={() => handleEditCategory(category)}
-                                                disabled={isSavingCategory}
-                                            >
-                                                Editar
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="admin-action-button danger"
-                                                onClick={() => handleDeleteCategory(category.id)}
-                                                disabled={isSavingCategory}
-                                            >
-                                                Eliminar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        {(showCategoryForm || editingCategoryId) && (
+                            <div className="admin-section-form inline">
+                                <div className="admin-form-title">
+                                    <h3>{editingCategoryId ? 'Editar categoría' : 'Agregar categoría'}</h3>
+                                    {editingCategoryId && <span className="admin-chip muted">ID {editingCategoryId}</span>}
+                                </div>
+                                <form className="admin-form" onSubmit={handleCategorySubmit}>
+                                    <label className="admin-form-label" htmlFor="category-nombre">
+                                        Nombre *
+                                    </label>
+                                    <input
+                                        id="category-nombre"
+                                        name="nombre"
+                                        className="admin-form-input"
+                                        type="text"
+                                        value={categoryForm.nombre}
+                                        onChange={handleCategoryInputChange}
+                                        placeholder="Nombre de la categoría"
+                                        required
+                                    />
+
+                                    <label className="admin-form-label" htmlFor="category-descripcion">
+                                        Descripción
+                                    </label>
+                                    <textarea
+                                        id="category-descripcion"
+                                        name="descripcion"
+                                        className="admin-form-input"
+                                        value={categoryForm.descripcion}
+                                        onChange={handleCategoryInputChange}
+                                        placeholder="Descripción breve"
+                                        rows={2}
+                                    />
+
+                                    <div className="admin-form-actions">
+                                        <button
+                                            type="submit"
+                                            className="admin-submit"
+                                            disabled={isSavingCategory || isLoading}
+                                        >
+                                            {isSavingCategory
+                                                ? 'Guardando...'
+                                                : editingCategoryId
+                                                ? 'Guardar cambios'
+                                                : 'Agregar categoría'}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="admin-secondary"
+                                            onClick={handleCancelCategoryEdit}
+                                            disabled={isSavingCategory}
+                                        >
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                </form>
+                                {categoryFeedback && (
+                                    <p
+                                        className={`admin-feedback ${
+                                            categoryFeedback.type === 'error' ? 'error' : 'success'
+                                        }`}
+                                    >
+                                        {categoryFeedback.message}
+                                    </p>
+                                )}
+                            </div>
+                        )}
+                        {!showCategoryForm && !editingCategoryId && (
+                            <p className="admin-section-empty">
+                                Presiona &ldquo;Agregar categoría&rdquo; para desplegar el formulario.
+                            </p>
+                        )}
+                        {!isLoading && categories.length === 0 && !error && (
+                            <p className="admin-section-empty">No se encontraron categorías.</p>
+                        )}
+                        {categories.length > 0 && (
+                            <div className="admin-table-wrapper line">
+                                <table className="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre</th>
+                                            <th>Descripción</th>
+                                            <th>Creada</th>
+                                            <th>Actualizada</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {categories.map((category) => (
+                                            <tr key={category.id}>
+                                                <td>{category.id}</td>
+                                                <td>{category.nombre || category.name || 'N/D'}</td>
+                                                <td>
+                                                    {category.descripcion || category.description || 'Sin descripción'}
+                                                </td>
+                                                <td>{formatDate(category.created_at || category.createdAt)}</td>
+                                                <td>{formatDate(category.updated_at || category.updatedAt)}</td>
+                                                <td className="admin-actions">
+                                                    <button
+                                                        type="button"
+                                                        className="admin-action-button"
+                                                        onClick={() => handleEditCategory(category)}
+                                                        disabled={isSavingCategory}
+                                                    >
+                                                        Editar
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="admin-action-button danger"
+                                                        onClick={() => handleDeleteCategory(category.id)}
+                                                        disabled={isSavingCategory}
+                                                    >
+                                                        Eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
                     </div>
-                )}
-            </section>
+                </div>
+            </div>
         </div>
     );
 };
