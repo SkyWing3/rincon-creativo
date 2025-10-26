@@ -65,6 +65,7 @@ const AdminDashboard = () => {
     const [userFeedback, setUserFeedback] = useState(null);
     const [showProductForm, setShowProductForm] = useState(false);
     const [showCategoryForm, setShowCategoryForm] = useState(false);
+    const [activeSection, setActiveSection] = useState('users');
 
     const resolveErrorMessage = (err, fallback) => {
         const serverMessage =
@@ -399,6 +400,13 @@ const AdminDashboard = () => {
             setEditingCategoryId(null);
         }
     };
+
+    const sectionButtons = [
+        { id: 'users', label: 'Usuarios', marker: 'users' },
+        { id: 'orders', label: 'Pedidos', marker: 'orders' },
+        { id: 'products', label: 'Productos', marker: 'products' },
+        { id: 'categories', label: 'Categorías', marker: 'categories' },
+    ];
 
     const handleProductInputChange = ({ target }) => {
         const { name, value } = target;
@@ -748,8 +756,23 @@ const AdminDashboard = () => {
                 </div>
             )}
 
+            <div className="admin-segment-nav">
+                {sectionButtons.map((item) => (
+                    <button
+                        key={item.id}
+                        type="button"
+                        className={`admin-segment-button ${activeSection === item.id ? 'active' : ''}`}
+                        onClick={() => setActiveSection(item.id)}
+                    >
+                        <span className={`admin-marker miniature ${item.marker}`} />
+                        {item.label}
+                    </button>
+                ))}
+            </div>
+
             <div className="admin-timeline">
-                <div className="admin-node">
+                {activeSection === 'users' && (
+                    <div className="admin-node">
                     <span className="admin-marker users" />
                     <div className="admin-node-body">
                         <div className="admin-section-header">
@@ -843,8 +866,10 @@ const AdminDashboard = () => {
                         )}
                     </div>
                 </div>
+                )}
 
-                <div className="admin-node">
+                {activeSection === 'orders' && (
+                    <div className="admin-node">
                     <span className="admin-marker orders" />
                     <div className="admin-node-body">
                         <div className="admin-section-header">
@@ -899,8 +924,10 @@ const AdminDashboard = () => {
                         )}
                     </div>
                 </div>
+                )}
 
-                <div className="admin-node">
+                {activeSection === 'products' && (
+                    <div className="admin-node">
                     <span className="admin-marker products" />
                     <div className="admin-node-body">
                         <div className="admin-section-header">
@@ -1120,8 +1147,10 @@ const AdminDashboard = () => {
                         )}
                     </div>
                 </div>
+                )}
 
-                <div className="admin-node">
+                {activeSection === 'categories' && (
+                    <div className="admin-node">
                     <span className="admin-marker categories" />
                     <div className="admin-node-body">
                         <div className="admin-section-header">
@@ -1271,6 +1300,7 @@ const AdminDashboard = () => {
                         )}
                     </div>
                 </div>
+                )}
             </div>
         </div>
     );
