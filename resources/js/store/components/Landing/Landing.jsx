@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FaArrowRight, FaStar } from 'react-icons/fa';
 import './Landing.css';
+import aboutImage from '../../../../src/duenas.png';
 
 const Landing = ({ imageUrl = 'https://www.conartesanos.com/wp-content/uploads/2020/07/2.jpg' }) => {
   const containerVariants = {
@@ -66,7 +67,7 @@ const Landing = ({ imageUrl = 'https://www.conartesanos.com/wp-content/uploads/2
           </div>
           <div className="about-image">
             <img
-              src="https://static.vecteezy.com/system/resources/previews/018/767/470/non_2x/handy-crafts-logo-design-free-vector.jpg"
+              src={aboutImage}
               alt="Sobre Nosotros"
             />
           </div>

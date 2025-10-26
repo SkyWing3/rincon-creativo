@@ -7,7 +7,7 @@ export default function Guest({ children }: PropsWithChildren) {
         <div className="flex min-h-screen flex-col items-center bg-slate-950 pt-6 text-slate-100 sm:justify-center sm:pt-0">
             <div>
                 <Link href="/">
-                    <ApplicationLogo className="h-20 w-20 fill-current text-slate-300" />
+                    <ApplicationLogo className="h-20 w-20 object-contain" />
                 </Link>
             </div>
 

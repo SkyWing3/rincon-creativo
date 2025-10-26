@@ -2,7 +2,7 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBars, FaUser, FaShoppingBag, FaSun, FaMoon } from 'react-icons/fa';
-import logo from '../../logo.svg';
+import logo from '../../../../src/logo.png';
 import './Navbar.css';
 import SideDrawer from '../SideDrawer/SideDrawer';
 import Backdrop from '../Backdrop/Backdrop';
