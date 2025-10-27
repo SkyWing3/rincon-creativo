@@ -207,7 +207,6 @@
 .star-icon {
   color: var(--primary);
 }
-
 @media (max-width: 768px) {
   .hero-section {
     min-height: 70vh;
