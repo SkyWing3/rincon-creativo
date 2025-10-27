@@ -118,7 +118,7 @@
 
 .pay-btn {
   background: var(--primary-strong);
-  color: var(--text-primary);
+  color: var(--text-on-primary);
   border: 1px solid var(--primary-strong);
   padding: 14px 26px;
   border-radius: 12px;

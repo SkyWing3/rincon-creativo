@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   min-height: 78vh;
-  color: var(--text-primary);
+  color: #f8fafc;
   text-align: center;
   padding: 0 2rem;
   background: var(--surface);
@@ -42,14 +42,14 @@
 .hero-content p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
-  color: var(--text-secondary);
+  color: rgba(248, 250, 252, 0.88);
 }
 
 .hero-button {
   display: inline-flex;
   align-items: center;
   background: var(--primary-strong);
-  color: var(--text-primary);
+  color: var(--text-on-primary);
   padding: 0.95rem 1.8rem;
   border-radius: 14px;
   text-decoration: none;

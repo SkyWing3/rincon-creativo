@@ -8,6 +8,7 @@ body.light-mode {
   --text-primary: #1c2430;
   --text-secondary: #4b5565;
   --border-color: #d9e2ec;
+  --text-on-primary: #f8fafc;
 }
 
 body.dark-mode {
@@ -20,6 +21,7 @@ body.dark-mode {
   --text-primary: #e8ecf4;
   --text-secondary: #a6afc1;
   --border-color: #232b3a;
+  --text-on-primary: #0c141c;
 }
 
 body.light-mode,

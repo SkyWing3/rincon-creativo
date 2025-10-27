@@ -179,7 +179,7 @@
   border: 1px solid var(--primary-strong);
   border-radius: 12px;
   background: var(--primary-strong);
-  color: var(--text-primary);
+  color: var(--text-on-primary);
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.01em;
