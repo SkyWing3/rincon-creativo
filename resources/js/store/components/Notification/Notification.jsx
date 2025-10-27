@@ -19,5 +19,4 @@ const Notification = ({ message, type, onClose }) => {
     </div>
   );
 };
-
 export default Notification;
