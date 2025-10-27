@@ -26,7 +26,6 @@ const normalizeProfileData = (profile) => {
         orders: Array.isArray(data.orders) ? data.orders : [],
     };
 };
-
 const Profile = () => {
     const { user: sessionUser } = useContext(AuthContext);
     const [user, setUser] = useState(() => (sessionUser ? normalizeProfileData(sessionUser) : null));
