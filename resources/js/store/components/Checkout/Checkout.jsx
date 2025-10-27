@@ -14,7 +14,6 @@ const Checkout = ({ cartItems = [], orderDetails = null, orderError = null }) =>
             setProfile(null);
             return;
         }
-
         const fetchProfile = async () => {
             setIsLoadingProfile(true);
             setProfileError(null);
