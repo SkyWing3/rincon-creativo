@@ -20,7 +20,6 @@
   gap: 24px;
   border: 1px solid var(--border-color);
 }
-
 .register-header {
   display: flex;
   flex-direction: column;
