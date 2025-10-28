@@ -105,7 +105,6 @@ const Profile = () => {
             setEditedUser(user);
         }
     };
-
     const handleSave = () => {
         if (!editedUser) return;
         setUser(editedUser);
