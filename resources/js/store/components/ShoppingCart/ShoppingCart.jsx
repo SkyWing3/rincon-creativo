@@ -14,7 +14,6 @@ const ShoppingCart = ({ cartItems, onRemoveFromCart, onUpdateQuantity, onCheckou
         if (isSubmitting) {
             return;
         }
-
         setCheckoutError(null);
 
         if (!user) {
