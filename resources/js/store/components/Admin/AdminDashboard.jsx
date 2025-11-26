@@ -736,6 +736,14 @@ const AdminDashboard = () => {
                     )}
                 </div>
                 <div className="admin-header-actions">
+                    <a
+                        className="admin-ghost"
+                        href="https://lookerstudio.google.com/u/0/reporting/38339f85-5912-4dd6-8b49-1f5f89bbd97c/page/3tZgF"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Informe DSS
+                    </a>
                     <button className="admin-ghost" onClick={fetchAdminData} disabled={isLoading}>
                         {isLoading ? 'Actualizando...' : 'Refrescar datos'}
                     </button>
